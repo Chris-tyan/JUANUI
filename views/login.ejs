@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login - JuanUI App</title>
+</head>
+<body style="margin:0;font-family:Arial,sans-serif;background:#f3f4f6;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box;">
+
+<div style="background:white;width:100%;max-width:420px;border-radius:12px;overflow:hidden;box-shadow:0 8px 25px rgba(0,0,0,0.1);">
+
+    <div style="background:linear-gradient(135deg,#4338ca,#312e81);color:white;text-align:center;padding:25px;">
+        <a href="/" style="display:block;text-align:left;color:white;text-decoration:none;">← Back to Home</a>
+        <h1>💻 JuanUI App</h1>
+        <h2 style="margin:0;font-weight:normal;">Student Login</h2>
+    </div>
+
+    <div style="padding:28px;">
+
+        <% if (error) { %>
+            <p style="background:#fee2e2;color:#b91c1c;padding:12px;border-radius:6px;"><%= error %></p>
+        <% } %>
+
+        <form action="/login" method="POST">
+            <label for="email" style="display:block;margin-bottom:6px;font-weight:bold;">Email Address</label>
+            <input id="email" type="email" name="email" placeholder="Enter your email" required style="box-sizing:border-box;width:100%;padding:12px;border:1px solid #d1d5db;border-radius:6px;margin-bottom:18px;">
+
+            <label for="password" style="display:block;margin-bottom:6px;font-weight:bold;">Password</label>
+            <input id="password" type="password" name="password" placeholder="Enter your password" required style="box-sizing:border-box;width:100%;padding:12px;border:1px solid #d1d5db;border-radius:6px;margin-bottom:16px;">
+
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;font-size:14px;">
+                <label><input type="checkbox" name="remember"> Remember me</label>
+                <span style="color:#6b7280;">Forgot password?</span>
+            </div>
+
+            <button type="submit" style="width:100%;padding:13px;background:#f97316;color:white;border:0;border-radius:6px;font-size:16px;font-weight:bold;cursor:pointer;">Log In</button>
+        </form>
+
+        <p style="text-align:center;">Don't have an account? <a href="/signup" style="color:#ea580c;text-decoration:none;font-weight:bold;">Sign Up</a></p>
+    </div>
+</div>
+
+</body>
+</html>

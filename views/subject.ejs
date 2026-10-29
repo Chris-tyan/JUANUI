@@ -1,0 +1,261 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= subject %> | JuanUI</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            color: #1f2937;
+        }
+
+        header {
+            background: #312e81;
+            color: white;
+            padding: 20px 5%;
+        }
+
+        header h2 {
+            margin: 0;
+        }
+
+        header p {
+            margin-bottom: 12px;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .panel {
+            background: white;
+            padding: 22px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        h1, h2, h3 {
+            color: #312e81;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 85px;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font: inherit;
+            resize: vertical;
+        }
+
+        button {
+            background: #f97316;
+            color: white;
+            border: 0;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        button:hover {
+            background: #ea580c;
+        }
+
+        .question {
+            border: 1px solid #e5e7eb;
+            padding: 18px;
+            border-radius: 9px;
+            margin-top: 18px;
+            overflow-wrap: anywhere;
+        }
+
+        .answer {
+            background: #f9fafb;
+            padding: 12px;
+            border-radius: 7px;
+            margin: 10px 0;
+            overflow-wrap: anywhere;
+        }
+
+        .meta {
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 18px;
+            color: #4338ca;
+            text-decoration: none;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+
+        .answer-form {
+            margin-top: 15px;
+        }
+
+        @media (max-width: 600px) {
+            main {
+                margin: 15px auto;
+                padding: 12px;
+            }
+
+            .panel {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h2>💻 JuanUI App</h2>
+        <p>IT Course Q&amp;A Platform</p>
+        <span>👤 <%= user.name %></span>
+    </header>
+
+    <main>
+        <a
+            class="back"
+            href="/home?user_id=<%= encodeURIComponent(user.id) %>"
+        >← Back to Home</a>
+
+        <section class="panel">
+            <h1><%= subject %></h1>
+            <p><%= year %> — Ask questions and help other students.</p>
+
+            <h2>Ask a Question</h2>
+
+            <form action="/questions" method="POST">
+                <input
+                    type="hidden"
+                    name="user_id"
+                    value="<%= user.id %>"
+                >
+
+                <input
+                    type="hidden"
+                    name="year"
+                    value="<%= year %>"
+                >
+
+                <input
+                    type="hidden"
+                    name="subject"
+                    value="<%= subject %>"
+                >
+
+                <textarea
+                    name="question"
+                    placeholder="Type your question here..."
+                    maxlength="2000"
+                    required
+                ></textarea>
+
+                <button type="submit">Post Question</button>
+            </form>
+        </section>
+
+        <section class="panel">
+            <h2>Questions and Answers</h2>
+
+            <% if (questions.length === 0) { %>
+                <p>No questions yet. Be the first to ask!</p>
+            <% } %>
+
+            <% questions.forEach(q => { %>
+                <div class="question">
+                    <h3>Question</h3>
+
+                    <p><%= q.question %></p>
+
+                    <p class="meta">
+                        Asked by <%= q.name %> ·
+                        <%= new Date(q.created_at).toLocaleString() %>
+                    </p>
+
+                    <hr>
+
+                    <h3>Answers</h3>
+
+                    <% const questionAnswers = answers.filter(
+                        a => String(a.question_id) === String(q.id)
+                    ); %>
+
+                    <% if (questionAnswers.length === 0) { %>
+                        <p>No answers yet. Be the first to answer!</p>
+                    <% } else { %>
+                        <% questionAnswers.forEach(a => { %>
+                            <div class="answer">
+                                <p><%= a.answer %></p>
+
+                                <p class="meta">
+                                    Answered by
+                                    <strong><%= a.name %></strong>
+                                    ·
+                                    <%= new Date(a.created_at).toLocaleString() %>
+                                </p>
+                            </div>
+                        <% }) %>
+                    <% } %>
+
+                    <form
+                        action="/answers"
+                        method="POST"
+                        class="answer-form"
+                    >
+                        <input
+                            type="hidden"
+                            name="question_id"
+                            value="<%= q.id %>"
+                        >
+
+                        <input
+                            type="hidden"
+                            name="user_id"
+                            value="<%= user.id %>"
+                        >
+
+                        <input
+                            type="hidden"
+                            name="year"
+                            value="<%= year %>"
+                        >
+
+                        <input
+                            type="hidden"
+                            name="subject"
+                            value="<%= subject %>"
+                        >
+
+                        <textarea
+                            name="answer"
+                            placeholder="Write your answer..."
+                            maxlength="2000"
+                            required
+                        ></textarea>
+
+                        <button type="submit">Post Answer</button>
+                    </form>
+                </div>
+            <% }) %>
+        </section>
+    </main>
+</body>
+</html>

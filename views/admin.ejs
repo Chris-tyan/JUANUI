@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JuanUI Admin</title>
+</head>
+
+<body style="margin:0;font-family:Arial,sans-serif;background:#f3f4f6;color:#1f2937;">
+
+<header style="background:#312e81;color:white;padding:20px 5%;">
+    <h1 style="margin:0;">💻 JuanUI Admin Panel</h1>
+    <p>Manage users, questions, answers, and login history.</p>
+    <a href="/" style="color:white;">Back to JuanUI</a>
+</header>
+
+<main style="padding:25px 5%;">
+
+    <!-- Registered Users -->
+    <section style="background:white;padding:20px;border-radius:10px;margin-bottom:25px;overflow-x:auto;">
+        <h2>Registered Users (<%= users.length %>)</h2>
+
+        <table style="width:100%;border-collapse:collapse;text-align:left;">
+            <thead>
+                <tr style="background:#e0e7ff;">
+                    <th style="padding:12px;">ID</th>
+                    <th style="padding:12px;">Name</th>
+                    <th style="padding:12px;">Email</th>
+                    <th style="padding:12px;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (users.length === 0) { %>
+                    <tr>
+                        <td colspan="4" style="padding:12px;">No registered users yet.</td>
+                    </tr>
+                <% } %>
+
+                <% users.forEach(user => { %>
+                    <tr>
+                        <td style="padding:12px;border-bottom:1px solid #ddd;"><%= user.id %></td>
+                        <td style="padding:12px;border-bottom:1px solid #ddd;"><%= user.name %></td>
+                        <td style="padding:12px;border-bottom:1px solid #ddd;"><%= user.email %></td>
+                        <td style="padding:12px;border-bottom:1px solid #ddd;">
+                            <form action="/admin/delete/<%= user.id %>" method="POST"
+                                  onsubmit="return confirm('Delete this user?')">
+                                <button type="submit"
+                                    style="background:#dc2626;color:white;border:0;padding:9px 12px;border-radius:5px;cursor:pointer;">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Manage Questions -->
+    <section style="background:white;padding:20px;border-radius:10px;margin-bottom:25px;overflow-x:auto;">
+        <h2>Manage Questions (<%= questions.length %>)</h2>
+
+        <table style="width:100%;border-collapse:collapse;text-align:left;">
+            <thead>
+                <tr style="background:#e0e7ff;">
+                    <th style="padding:12px;">ID</th>
+                    <th style="padding:12px;">Student</th>
+                    <th style="padding:12px;">Year</th>
+                    <th style="padding:12px;">Subject</th>
+                    <th style="padding:12px;">Question</th>
+                    <th style="padding:12px;">Date</th>
+                    <th style="padding:12px;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (questions.length === 0) { %>
+                    <tr>
+                        <td colspan="7" style="padding:12px;">No questions posted yet.</td>
+                    </tr>
+                <% } %>
+
+                <% questions.forEach(question => { %>
+                    <tr>
+                        <td style="padding:12px;border-bottom:1px solid #ddd;"><%= question.id %></td>
+                        <td style="padding:12px;border-bottom:1px solid #ddd;"><%= question.name %></td>
+                        <td style="padding:12px;border-bottom:1px solid #ddd;"><%= question.year_level %></td>
+                        <td style="padding:12px;border-bottom:1px solid #ddd;"><%= question.subject %></td>
+                        <td style="padding:12px;border-bottom:1px solid #ddd;"><%= question.question %></td>
+                        <td style="padding:12px;border-bottom:1px solid #ddd;"><%= question.created_at %></td>
+                        <td style="padding:12px;border-bottom:1px solid #ddd;">
+                            <form action="/admin/delete-question/<%= question.id %>" method="POST"
+                                  onsubmit="return confirm('Delete this question and its answers?')">
+                                <button type="submit"
+                                    style="background:#dc2626;color:white;border:0;padding:9px 12px;border-radius:5px;cursor:pointer;">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Manage Answers -->
+    <section style="background:white;padding:20px;border-radius:10px;margin-bottom:25px;overflow-x:auto;">
+        <h2>Manage Answers (<%= answers.length %>)</h2>
+
+        <table style="width:100%;border-collapse:collapse;text-align:left;">
+            <thead>
+                <tr style="background:#e0e7ff;">
+                    <th style="padding:12px;">ID</th>
+                    <th style="padding:12px;">Student</th>
+                    <th style="padding:12px;">Answer</th>
+                    <th style="padding:12px;">Related Question</th>
+                    <th style="padding:12px;">Date</th>
+                    <th style="padding:12px;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (answers.length === 0) { %>
+                    <tr>
+                        <td colspan="6" style="padding:12px;">No answers posted yet.</td>
+                    </tr>
+                <% } %>
+
+                <% answers.forEach(answer => { %>
+                    <tr>
+                        <td style="padding:12px;border-bottom:1px solid #ddd;"><%= answer.id %></td>
+                        <td style="padding:12px;border-bottom:1px solid #ddd;"><%= answer.name %></td>
+                        <td style="padding:12px;border-bottom:1px solid #ddd;"><%= answer.answer %></td>
+                        <td style="padding:12px;border-bottom:1px solid #ddd;"><%= answer.question_text || 'Question deleted' %></td>
+                        <td style="padding:12px;border-bottom:1px solid #ddd;"><%= answer.created_at %></td>
+                        <td style="padding:12px;border-bottom:1px solid #ddd;">
+                            <form action="/admin/delete-answer/<%= answer.id %>" method="POST"
+                                  onsubmit="return confirm('Delete this answer?')">
+                                <button type="submit"
+                                    style="background:#dc2626;color:white;border:0;padding:9px 12px;border-radius:5px;cursor:pointer;">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Login History -->
+    <section style="background:white;padding:20px;border-radius:10px;margin-bottom:25px;overflow-x:auto;">
+        <h2>Login History (Latest 100)</h2>
+
+        <table style="width:100%;border-collapse:collapse;text-align:left;">
+            <thead>
+                <tr style="background:#e0e7ff;">
+                    <th style="padding:12px;">User ID</th>
+                    <th style="padding:12px;">Name</th>
+                    <th style="padding:12px;">Email</th>
+                    <th style="padding:12px;">Login Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (logs.length === 0) { %>
+                    <tr>
+                        <td colspan="4" style="padding:12px;">No successful logins recorded yet.</td>
+                    </tr>
+                <% } %>
+
+                <% logs.forEach(log => { %>
+                    <tr>
+                        <td style="padding:12px;border-bottom:1px solid #ddd;"><%= log.user_id %></td>
+                        <td style="padding:12px;border-bottom:1px solid #ddd;"><%= log.name %></td>
+                        <td style="padding:12px;border-bottom:1px solid #ddd;"><%= log.email %></td>
+                        <td style="padding:12px;border-bottom:1px solid #ddd;"><%= log.login_time %></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Admin Logout -->
+    <form action="/admin/logout" method="POST" style="margin-bottom:25px;">
+        <button type="submit"
+            style="background:#312e81;color:white;border:0;padding:12px 18px;border-radius:5px;cursor:pointer;">
+            Admin Logout
+        </button>
+    </form>
+
+</main>
+</body>
+</html>

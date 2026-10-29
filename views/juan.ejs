@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JuanUI - IT Course Q&A Platform</title>
+</head>
+<body style="margin:0;font-family:Arial,sans-serif;background:#f3f4f6;color:#1f2937;">
+
+<header style="background:#312e81;color:white;padding:18px 5%;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;">
+    <h2 style="margin:0;">💻 JuanUI App</h2>
+
+    <form action="/" method="GET" style="display:flex;gap:5px;flex:1;max-width:450px;">
+        <input name="search" type="search" value="<%= search %>" placeholder="Search IT lessons or questions..." style="padding:11px;width:100%;border:0;border-radius:6px;">
+        <button type="submit" style="background:#f97316;color:white;border:0;padding:11px 16px;border-radius:6px;cursor:pointer;">Search</button>
+    </form>
+
+    <div style="display:flex;gap:10px;">
+        <a href="/login" style="background:#f97316;color:white;padding:11px 16px;border-radius:6px;text-decoration:none;">Log In</a>
+        <a href="/signup" style="background:white;color:#312e81;padding:11px 16px;border-radius:6px;text-decoration:none;">Sign Up</a>
+    </div>
+</header>
+
+<main style="display:flex;gap:22px;padding:25px 5%;align-items:flex-start;flex-wrap:wrap;">
+
+    <aside style="background:white;padding:22px;border-radius:10px;width:220px;box-sizing:border-box;">
+        <h3 style="margin-top:0;">IT Course Lessons</h3>
+        <p><a href="/login" style="color:#4338ca;text-decoration:none;">📘 1st Year</a></p>
+        <p><a href="/login" style="color:#4338ca;text-decoration:none;">📘 2nd Year</a></p>
+        <p><a href="/login" style="color:#4338ca;text-decoration:none;">📘 3rd Year</a></p>
+        <p><a href="/login" style="color:#4338ca;text-decoration:none;">📘 4th Year</a></p>
+        <hr style="border:0;border-top:1px solid #e5e7eb;">
+        <h3>My Activity</h3>
+        <p><a href="/login" style="color:#4338ca;text-decoration:none;">My Questions</a></p>
+        <p><a href="/login" style="color:#4338ca;text-decoration:none;">My Answers</a></p>
+    </aside>
+
+    <section style="flex:1;min-width:260px;">
+
+        <div style="background:linear-gradient(135deg,#4338ca,#312e81);color:white;padding:30px;border-radius:12px;margin-bottom:22px;">
+            <h1 style="margin-top:0;">Learn. Ask. Share.</h1>
+            <p>Welcome to JuanUI, a community for IT students to learn programming, share knowledge, and ask questions.</p>
+            <a href="/signup" style="display:inline-block;background:#f97316;color:white;padding:12px 18px;border-radius:6px;text-decoration:none;">Join the Community</a>
+        </div>
+
+        <div style="background:white;padding:22px;border-radius:10px;">
+            <h2 style="margin-top:0;">Recent Questions</h2>
+
+            <% if (search) { %>
+                <p>Search term: <strong><%= search %></strong></p>
+            <% } %>
+
+            <article style="border:1px solid #e5e7eb;padding:18px;border-radius:8px;margin-bottom:15px;">
+                <h3>What is Object-Oriented Programming?</h3>
+                <p style="color:#6b7280;">Learn about classes, objects, inheritance, and encapsulation.</p>
+                <a href="/login" style="color:#ea580c;text-decoration:none;">Log in to participate →</a>
+            </article>
+
+            <article style="border:1px solid #e5e7eb;padding:18px;border-radius:8px;margin-bottom:15px;">
+                <h3>What is the difference between HTML and CSS?</h3>
+                <p style="color:#6b7280;">Understand the technologies used to build websites.</p>
+                <a href="/login" style="color:#ea580c;text-decoration:none;">Log in to participate →</a>
+            </article>
+
+            <article style="border:1px solid #e5e7eb;padding:18px;border-radius:8px;">
+                <h3>How do databases work?</h3>
+                <p style="color:#6b7280;">Explore tables, records, queries, and database connections.</p>
+                <a href="/login" style="color:#ea580c;text-decoration:none;">Log in to participate →</a>
+            </article>
+        </div>
+    </section>
+</main>
+
+<footer style="text-align:center;padding:20px;color:#6b7280;">
+    JuanUI App | IT Course Q&A Platform
+</footer>
+
+</body>
+</html>

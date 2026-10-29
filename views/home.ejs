@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JuanUI Dashboard</title>
+</head>
+
+<body style="margin:0;font-family:Arial,sans-serif;background:#f3f4f6;color:#1f2937;">
+
+<header style="background:#312e81;color:white;padding:18px 5%;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;">
+    <h2 style="margin:0;">💻 JuanUI App</h2>
+
+    <form action="/search" method="GET" style="display:flex;gap:5px;flex:1;max-width:400px;">
+        <input type="hidden" name="user_id" value="<%= user.id %>">
+        <input type="search" name="q" value="<%= search || '' %>" placeholder="Search IT lessons or questions..." style="padding:11px;width:100%;border:0;border-radius:6px;">
+        <button type="submit" style="background:#f97316;color:white;border:0;padding:11px 15px;border-radius:6px;cursor:pointer;">Search</button>
+    </form>
+
+    <div style="display:flex;align-items:center;gap:12px;">
+        <span>👤 <%= user.name %></span>
+        <form action="/logout" method="POST" style="margin:0;">
+            <button type="submit" style="background:#f97316;color:white;border:0;padding:10px 14px;border-radius:6px;cursor:pointer;">Log Out</button>
+        </form>
+    </div>
+</header>
+
+<main style="display:flex;gap:22px;padding:25px 5%;align-items:flex-start;flex-wrap:wrap;">
+
+    <aside style="background:white;padding:22px;border-radius:10px;width:220px;box-sizing:border-box;">
+        <h3>IT Course Lessons</h3>
+        <p><a href="#year1" style="color:#4338ca;text-decoration:none;">📘 1st Year</a></p>
+        <p><a href="#year2" style="color:#4338ca;text-decoration:none;">📘 2nd Year</a></p>
+        <p><a href="#year3" style="color:#4338ca;text-decoration:none;">📘 3rd Year</a></p>
+        <p><a href="#year4" style="color:#4338ca;text-decoration:none;">📘 4th Year</a></p>
+
+        <hr>
+
+        <h3>My Activity</h3>
+        <p>My Questions</p>
+        <p>My Answers</p>
+    </aside>
+
+    <section style="flex:1;min-width:260px;">
+
+        <div style="background:linear-gradient(135deg,#4338ca,#312e81);color:white;padding:28px;border-radius:12px;margin-bottom:22px;">
+            <h1 style="color:white;">Welcome, <%= user.name %>!</h1>
+            <p>Keep learning, asking questions, and sharing your IT knowledge.</p>
+        </div>
+
+        <div style="background:white;padding:22px;border-radius:10px;margin-bottom:20px;">
+            <h2>Your Account</h2>
+            <p><strong>Full Name:</strong> <%= user.name %></p>
+            <p><strong>Email:</strong> <%= user.email %></p>
+        </div>
+
+        <% if (search) { %>
+    <div style="background:#fff7ed;padding:20px;border-radius:10px;margin-bottom:20px;">
+        <h2 style="color:#312e81;">Search Results</h2>
+
+        <p>
+            Results for:
+            <strong><%= search %></strong>
+        </p>
+
+        <% if (searchResults && searchResults.length > 0) { %>
+
+            <% searchResults.forEach(item => { %>
+
+                <% if (item.type === 'subject') { %>
+                    <div style="background:white;padding:15px;border-radius:8px;margin-bottom:10px;border:1px solid #e5e7eb;">
+                        <strong>📘 Subject</strong>
+                        <p><%= item.subject %></p>
+                        <small><%= item.year %></small>
+
+                        <p>
+                            <a
+                                href="/subject?year=<%= encodeURIComponent(item.year) %>&amp;subject=<%= encodeURIComponent(item.subject) %>&amp;user_id=<%= encodeURIComponent(user.id) %>"
+                                style="color:#4338ca;text-decoration:none;font-weight:bold;">
+                                Open Subject →
+                            </a>
+                        </p>
+                    </div>
+                <% } else { %>
+
+                    <div style="background:white;padding:15px;border-radius:8px;margin-bottom:10px;border:1px solid #e5e7eb;">
+                        <strong>❓ Question</strong>
+                        <p><%= item.question %></p>
+
+                        <small>
+                            <%= item.year_level %> |
+                            <%= item.subject %>
+                        </small>
+
+                        <p>
+                            <a
+                                href="/subject?year=<%= encodeURIComponent(item.year_level) %>&amp;subject=<%= encodeURIComponent(item.subject) %>&amp;user_id=<%= encodeURIComponent(user.id) %>"
+                                style="color:#4338ca;text-decoration:none;font-weight:bold;">
+                                Open Discussion →
+                            </a>
+                        </p>
+                    </div>
+
+                <% } %>
+
+            <% }); %>
+
+        <% } else { %>
+            <p style="color:#6b7280;">
+                No matching subjects or questions found. Try another keyword.
+            </p>
+        <% } %>
+
+        <a href="/home?user_id=<%= encodeURIComponent(user.id) %>"
+           style="color:#4338ca;text-decoration:none;">
+            ← Back to Dashboard
+        </a>
+    </div>
+<% } %>
+
+        
+<div style="background:white;padding:22px;border-radius:10px;">
+    <h2>IT Course Lessons</h2>
+    <p style="color:#6b7280;">
+        Select a year, open its lessons, and choose a subject to ask questions.
+    </p>
+
+    <!-- 1ST YEAR -->
+    <article id="year1" style="padding:18px;background:#f9fafb;border-radius:8px;margin-bottom:15px;scroll-margin-top:20px;">
+        <h3 style="color:#312e81;">📘 1st Year IT</h3>
+        <p>Introduction to programming and computer fundamentals.</p>
+
+        <ul>
+            <li>Computer Fundamentals</li>
+            <li>Introduction to Computing</li>
+            <li>Introduction to Programming</li>
+            <li>Basic Web Development</li>
+        </ul>
+
+        <button type="button" onclick="showLessons('lessons1')" style="background:#f97316;color:white;border:0;padding:10px 15px;border-radius:5px;cursor:pointer;">View Lessons</button>
+
+        <div id="lessons1" hidden style="margin-top:15px;background:white;padding:15px;border-radius:6px;">
+            <h4>1st Year Subjects</h4>
+
+            <p><a href="/subject?year=1st%20Year&amp;subject=Computer%20Fundamentals&amp;user_id=<%= encodeURIComponent(user.id) %>">Computer Fundamentals</a></p>
+
+            <p><a href="/subject?year=1st%20Year&amp;subject=Introduction%20to%20Computing&amp;user_id=<%= encodeURIComponent(user.id) %>">Introduction to Computing</a></p>
+
+            <p><a href="/subject?year=1st%20Year&amp;subject=Introduction%20to%20Programming&amp;user_id=<%= encodeURIComponent(user.id) %>">Introduction to Programming</a></p>
+
+            <p><a href="/subject?year=1st%20Year&amp;subject=Basic%20Web%20Development&amp;user_id=<%= encodeURIComponent(user.id) %>">Basic Web Development</a></p>
+        </div>
+    </article>
+
+    <!-- 2ND YEAR -->
+    <article id="year2" style="padding:18px;background:#f9fafb;border-radius:8px;margin-bottom:15px;scroll-margin-top:20px;">
+        <h3 style="color:#312e81;">📘 2nd Year IT</h3>
+        <p>Programming, algorithms, and system architecture.</p>
+
+        <ul>
+            <li>Object-Oriented Programming</li>
+            <li>Data Structure &amp; Algorithms</li>
+            <li>System Integration and Architecture</li>
+        </ul>
+
+        <button type="button" onclick="showLessons('lessons2')" style="background:#f97316;color:white;border:0;padding:10px 15px;border-radius:5px;cursor:pointer;">View Lessons</button>
+
+        <div id="lessons2" hidden style="margin-top:15px;background:white;padding:15px;border-radius:6px;">
+            <h4>2nd Year Subjects</h4>
+
+            <p><a href="/subject?year=2nd%20Year&amp;subject=Object-Oriented%20Programming&amp;user_id=<%= encodeURIComponent(user.id) %>">Object-Oriented Programming</a></p>
+
+            <p><a href="/subject?year=2nd%20Year&amp;subject=Data%20Structure%20%26%20Algorithms&amp;user_id=<%= encodeURIComponent(user.id) %>">Data Structure &amp; Algorithms</a></p>
+
+            <p><a href="/subject?year=2nd%20Year&amp;subject=System%20Integration%20and%20Architecture&amp;user_id=<%= encodeURIComponent(user.id) %>">System Integration and Architecture</a></p>
+        </div>
+    </article>
+
+    <!-- 3RD YEAR -->
+    <article id="year3" style="padding:18px;background:#f9fafb;border-radius:8px;margin-bottom:15px;scroll-margin-top:20px;">
+        <h3 style="color:#312e81;">📘 3rd Year IT</h3>
+        <p>Advanced databases, capstone research, and platform technologies.</p>
+
+        <ul>
+            <li>Advanced Database System</li>
+            <li>Capstone Project and Research 1</li>
+            <li>Platforms Technologies</li>
+        </ul>
+
+        <button type="button" onclick="showLessons('lessons3')" style="background:#f97316;color:white;border:0;padding:10px 15px;border-radius:5px;cursor:pointer;">View Lessons</button>
+
+        <div id="lessons3" hidden style="margin-top:15px;background:white;padding:15px;border-radius:6px;">
+            <h4>3rd Year Subjects</h4>
+
+            <p><a href="/subject?year=3rd%20Year&amp;subject=Advanced%20Database%20System&amp;user_id=<%= encodeURIComponent(user.id) %>">Advanced Database System</a></p>
+
+            <p><a href="/subject?year=3rd%20Year&amp;subject=Capstone%20Project%20and%20Research%201&amp;user_id=<%= encodeURIComponent(user.id) %>">Capstone Project and Research 1</a></p>
+
+            <p><a href="/subject?year=3rd%20Year&amp;subject=Platforms%20Technologies&amp;user_id=<%= encodeURIComponent(user.id) %>">Platforms Technologies</a></p>
+        </div>
+    </article>
+
+    <!-- 4TH YEAR -->
+    <article id="year4" style="padding:18px;background:#f9fafb;border-radius:8px;scroll-margin-top:20px;">
+        <h3 style="color:#312e81;">📘 4th Year IT</h3>
+        <p>Capstone research, IT business solutions, and resource management.</p>
+
+        <ul>
+            <li>Capstone Project and Research 2</li>
+            <li>IT Business Solution</li>
+            <li>Managing IT Resources</li>
+        </ul>
+
+        <button type="button" onclick="showLessons('lessons4')" style="background:#f97316;color:white;border:0;padding:10px 15px;border-radius:5px;cursor:pointer;">View Lessons</button>
+
+        <div id="lessons4" hidden style="margin-top:15px;background:white;padding:15px;border-radius:6px;">
+            <h4>4th Year Subjects</h4>
+
+            <p><a href="/subject?year=4th%20Year&amp;subject=Capstone%20Project%20and%20Research%202&amp;user_id=<%= encodeURIComponent(user.id) %>">Capstone Project and Research 2</a></p>
+
+            <p><a href="/subject?year=4th%20Year&amp;subject=IT%20Business%20Solution&amp;user_id=<%= encodeURIComponent(user.id) %>">IT Business Solution</a></p>
+
+            <p><a href="/subject?year=4th%20Year&amp;subject=Managing%20IT%20Resources&amp;user_id=<%= encodeURIComponent(user.id) %>">Managing IT Resources</a></p>
+        </div>
+    </article>
+</div>
+
+<footer style="text-align:center;padding:20px;color:#6b7280;">
+    JuanUI App | IT Course Q&amp;A Platform
+</footer>
+
+<script>
+    function showLessons(id) {
+        const section = document.getElementById(id);
+        section.hidden = !section.hidden;
+    }
+</script>
+
+</body>
+</html>

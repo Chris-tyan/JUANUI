@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JuanUI - Admin Login</title>
+</head>
+
+<body style="margin:0;font-family:Arial,sans-serif;background:#f3f4f6;color:#1f2937;min-height:100vh;display:flex;flex-direction:column;">
+
+    <header style="background:#312e81;color:white;padding:18px 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+        <h2 style="margin:0;">💻 JuanUI App</h2>
+        <a href="/" style="background:white;color:#312e81;padding:10px 16px;border-radius:6px;text-decoration:none;font-weight:bold;">Back to Home</a>
+    </header>
+
+    <main style="flex:1;display:flex;justify-content:center;align-items:center;padding:30px 15px;">
+
+        <section style="background:white;width:100%;max-width:380px;padding:32px;box-sizing:border-box;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.08);">
+
+            <div style="text-align:center;margin-bottom:25px;">
+                <div style="font-size:42px;">🔐</div>
+                <h1 style="color:#312e81;margin:12px 0 8px;font-size:26px;">Admin Login</h1>
+                <p style="color:#6b7280;margin:0;font-size:14px;">Sign in to manage JuanUI users.</p>
+            </div>
+
+            <% if (error) { %>
+                <div style="background:#fee2e2;color:#b91c1c;padding:12px;border-radius:6px;margin-bottom:18px;font-size:14px;">
+                    <%= error %>
+                </div>
+            <% } %>
+
+            <form action="/admin-login" method="POST">
+
+                <label for="username" style="display:block;font-weight:bold;margin-bottom:8px;">Username</label>
+                <input
+                    id="username"
+                    type="text"
+                    name="username"
+                    placeholder="Enter admin username"
+                    autocomplete="username"
+                    required
+                    style="box-sizing:border-box;width:100%;padding:12px;border:1px solid #d1d5db;border-radius:6px;margin-bottom:18px;font-size:15px;">
+
+                <label for="password" style="display:block;font-weight:bold;margin-bottom:8px;">Password</label>
+                <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    placeholder="Enter admin password"
+                    autocomplete="current-password"
+                    required
+                    style="box-sizing:border-box;width:100%;padding:12px;border:1px solid #d1d5db;border-radius:6px;margin-bottom:22px;font-size:15px;">
+
+                <button
+                    type="submit"
+                    style="width:100%;padding:13px;background:#f97316;color:white;border:none;border-radius:6px;font-size:16px;font-weight:bold;cursor:pointer;">
+                    Login as Admin
+                </button>
+
+            </form>
+
+            <p style="text-align:center;color:#6b7280;font-size:13px;margin:22px 0 0;">
+                Authorized administrators only.
+            </p>
+
+        </section>
+    </main>
+
+    <footer style="text-align:center;padding:18px;color:#6b7280;font-size:13px;">
+        JuanUI App | IT Course Q&A Platform
+    </footer>
+
+</body>
+</html>
